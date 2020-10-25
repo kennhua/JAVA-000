@@ -1,7 +1,6 @@
 package jvm;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -21,15 +20,8 @@ public class HelloClassloader extends ClassLoader {
             Object instance = aClass.newInstance();
             Method method = aClass.getMethod("hello");
             method.invoke(instance);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (NoSuchMethodException | InstantiationException | IllegalAccessException |
+                ClassNotFoundException | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
@@ -37,9 +29,7 @@ public class HelloClassloader extends ClassLoader {
     @Override
     protected Class<?> findClass(String name) throws ClassNotFoundException {
         String filepath = "D:/JAVA-000/Week1/Hello/Hello.xlass";
-        InputStream inputStream = null;
-        try {
-            inputStream = new FileInputStream(filepath);
+        try(InputStream inputStream = new FileInputStream(filepath)) {
             int available = inputStream.available();
             byte[] bytes = new byte[available];
             inputStream.read(bytes);
@@ -47,18 +37,8 @@ public class HelloClassloader extends ClassLoader {
                 bytes[i] = (byte) (255 - bytes[i]);
             }
             return defineClass(name, bytes, 0, bytes.length);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if(null != inputStream){
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return null;
     }
