@@ -1,0 +1,20 @@
+使用压测工具（wrk或sb），演练gateway-server-0.0.1-SNAPSHOT.jar 示例。
+
+1、-Xmx512m -Xms512m，压测1分钟：
+	串行GC	并行GC	CMSGC	G1GC
+RPS	1624.8	1920.3	1662.3	2489
+Max	338ms	309ms	321ms	275ms
+Min	0ms	    0ms	    0ms	    0ms
+Avg	1.6ms	1.5ms	1.5ms	5ms
+
+2、-Xmx1024m –Xms1024m，压测1分钟：
+	串行GC	并行GC	CMSGC	G1GC
+RPS	1812.2	1950.5	1940.5	2510.6
+Max	310ms	260ms	265ms	120ms
+Min	0ms	    0ms	    0ms	    0ms
+Avg	1.5ms	1.1ms	1.1ms	4.5ms
+
+总结：
+1、	不同GC在堆内存为1g的吞吐量相比512m的均有所提升，GC时间均有所下降；
+2、	堆内存相同的情况下，G1GC的吞吐量最好，最大GC时间最小，但是平均GC时间最大；
+3、	综上可以看出GC效率：G1GC>并行GC>CMSGC>串行GC。

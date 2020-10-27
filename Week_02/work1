@@ -1,0 +1,20 @@
+使用 GCLogAnalysis.java 自己演练一遍串行/并行/CMS/G1的案例
+
+1、在Xmx128m执行程序时，发生了7次GC，18次FullGC，由于内存太小，垃圾回收的速度赶不上创建新对象的速度，频繁FullGC，最后导致内存溢出。
+2、512m内存下不同GC执行情况
+java -Xmx512m -Xms512m -XX:+UseSerialGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis 发生14次GC，生成对象次数：7382
+java -Xmx512m -Xms512m -XX:+UseParallelGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis 发生了18次GC，4次FullGC，生成对象次数：7157
+java -Xmx512m -Xms512m -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis 发生了11次GC，3次CMSGC，生成对象次数：7486
+java -Xmx512m -Xms512m -XX:+UseG1GC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis 发生20次GC，生成对象次数：8080
+3、1024m内存下不同GC执行情况
+java -Xmx1024m -Xms1024m -XX:+UseSerialGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis 发生了8次GC，生成对象次数：8365
+java -Xmx1024m -Xms1024m -XX:+UseParallelGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis发生了11次GC，1次FullGC，生成对象次数：8560
+java -Xmx1024m -Xms1024m -XX:+UseConcMarkSweepGC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis 发生了7次GC，1次CMSGC，生成对象次数：8485
+java -Xmx1024m -Xms1024m -XX:+UseG1GC -XX:+PrintGCDetails -XX:+PrintGCDateStamps  GCLogAnalysis发生10次GC，生成对象次数：9555
+
+总结：
+1、在内存太小的情况下，无论使用哪种GC，执行效率都不高，都有可能会发生内存溢出；
+2、不同的GC增大内存之后，发生GC的次数都变少了，生成对象次数也变多了，说明增大内存，程序执行的效率更高了；
+3、不同的GC相对比，GC的执行效率G1>并行GC>CMS GC>串行GC；
+4、选择GC应根据具体的应用场景，比如：吞吐量优先的可选择并行GC，低延迟可选择CMS GC，内存较大的可选择G1 GC。
+
