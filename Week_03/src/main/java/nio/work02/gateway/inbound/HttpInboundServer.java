@@ -15,14 +15,15 @@ import org.slf4j.LoggerFactory;
 
 
 public class HttpInboundServer {
+
     private static Logger logger = LoggerFactory.getLogger(HttpInboundServer.class);
 
     private int port;
-    
+
     private String proxyServer;
 
     public HttpInboundServer(int port, String proxyServer) {
-        this.port=port;
+        this.port = port;
         this.proxyServer = proxyServer;
     }
 
@@ -47,7 +48,7 @@ public class HttpInboundServer {
                     .handler(new LoggingHandler(LogLevel.INFO)).childHandler(new HttpInboundInitializer(this.proxyServer));
 
             Channel ch = b.bind(port).sync().channel();
-            logger.info("开启netty http服务器，监听地址和端口为 http://127.0.0.1:" + port + '/');
+            logger.info("开启netty http服务器，监听地址和端口为 http://localhost:" + port + '/');
             ch.closeFuture().sync();
         } finally {
             bossGroup.shutdownGracefully();
