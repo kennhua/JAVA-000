@@ -1,0 +1,12 @@
+mystarter:
+  config:
+    enable: true
+    student:
+      id: 1
+      name: zhangsan
+    klass:
+      students:
+        - id: 2
+          name: lisi
+        - id: 3
+          name: wangwu
