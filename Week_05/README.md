@@ -13,4 +13,4 @@ mystarter-spring-boot-starter
 1）使用 JDBC 原生接口，实现数据库的增删改查操作。
 2）使用事务，PrepareStatement 方式，批处理方式，改进上述操作。
 3）配置 Hikari 连接池，改进上述操作。提交代码到 Github。
-
+homework02 -> jdbc -> JdbcDemo01、JdbcDemo02、JdbcDemo03
