@@ -1,14 +1,14 @@
 学习笔记
 
-周四作业：
-1.（选做）使 Java 里的动态代理，实现一个简单的 AOP。
+周四作业：  
+1.（选做）使 Java 里的动态代理，实现一个简单的 AOP。  
 代码：homework01 -> aop
 
-2.（必做）写代码实现 Spring Bean 的装配，方式越多越好（XML、Annotation 都可以）, 提交到 Github。
+2.（必做）写代码实现 Spring Bean 的装配，方式越多越好（XML、Annotation 都可以）, 提交到 Github。  
 代码：homework01 -> springbean
 
 
-周六作业：
+周六作业：  
 1.（选做）总结一下，单例的各种写法，比较它们的优劣。  
 代码：homework02 -> singleton  
 1)饿汉式：在类加载的时候，instance静态实例就已经创建并初始化，创建过程线程安全，但是不支持延迟加载。  
