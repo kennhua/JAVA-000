@@ -20,6 +20,7 @@ public class JdbcDemo03 {
     private static final String db_name = "test";
     private static final String db_username = "root";
     private static final String db_password = "123";
+    private static final String db_serverTimezone = "Asia/Shanghai";
     private static HikariDataSource dataSource = null;
 
     public static void main(String[] args) throws SQLException {
@@ -49,12 +50,13 @@ public class JdbcDemo03 {
         if(dataSource == null){
             HikariConfig config = new HikariConfig();
             config.setMaximumPoolSize(db_max_conn);
-            config.setDataSourceClassName("com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+            config.setDataSourceClassName("com.mysql.cj.jdbc.MysqlDataSource");
             config.addDataSourceProperty("serverName", db_url);
             config.addDataSourceProperty("port", db_port);
             config.addDataSourceProperty("databaseName", db_name);
             config.addDataSourceProperty("user", db_username);
             config.addDataSourceProperty("password", db_password);
+            config.addDataSourceProperty("serverTimezone", db_serverTimezone);
             dataSource = new HikariDataSource(config);
         }
     }

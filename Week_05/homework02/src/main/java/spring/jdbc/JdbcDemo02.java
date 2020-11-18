@@ -14,7 +14,7 @@ import java.util.List;
  **/
 public class JdbcDemo02 {
 
-    private static final String url = "jdbc:mysql://localhost:3306/test?" + "useUnicode=true&characterEncoding=UTF8";
+    private static final String url = "jdbc:mysql://localhost:3306/test?" + "useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai";
     private static final String db_username = "root";
     private static final String db_password = "123";
 

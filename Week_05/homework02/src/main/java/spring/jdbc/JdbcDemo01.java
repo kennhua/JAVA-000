@@ -13,13 +13,13 @@ import java.util.List;
  **/
 public class JdbcDemo01 {
 
-    private static final String db_url = "jdbc:mysql://localhost:3306/test?" + "useUnicode=true&characterEncoding=UTF8";
+    private static final String db_url = "jdbc:mysql://localhost:3306/test?" + "useUnicode=true&characterEncoding=UTF8&serverTimezone=Asia/Shanghai";
     private static final String db_username = "root";
     private static final String db_password = "123";
 
     public static void main(String[] args) {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
