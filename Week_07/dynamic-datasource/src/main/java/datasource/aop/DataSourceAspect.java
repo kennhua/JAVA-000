@@ -1,6 +1,6 @@
 package datasource.aop;
 
-import datasource.DataSourceType;
+import datasource.eumn.DataSourceType;
 import datasource.config.DataSourceContextHolder;
 import datasource.config.SlaveConfig;
 import org.aspectj.lang.JoinPoint;
