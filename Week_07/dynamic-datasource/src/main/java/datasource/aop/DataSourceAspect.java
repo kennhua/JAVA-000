@@ -1,16 +1,21 @@
 package datasource.aop;
 
+import datasource.DataSourceType;
 import datasource.config.DataSourceContextHolder;
+import datasource.config.SlaveConfig;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
+import java.util.Random;
 
 /**
  * @author liugenghua
@@ -20,8 +25,12 @@ import java.lang.reflect.Method;
  **/
 @Order(1)
 @Aspect
+@AutoConfigureAfter(datasource.config.SlaveConfig.class)
 @Component
 public class DataSourceAspect {
+
+    @Autowired
+    private SlaveConfig slaveConfig;
 
     @Pointcut("@annotation(datasource.aop.ReadOnly)")
     public void pointcut() {
@@ -37,8 +46,11 @@ public class DataSourceAspect {
                 return;
             }
         }
+        //模拟随机负载均衡
+        Random random = new Random();
+        int i = random.nextInt(100) % slaveConfig.getSlave().size();
         //切换数据源
-        DataSourceContextHolder.setDataSource("slave1DataSource");
+        DataSourceContextHolder.setDataSource(DataSourceType.slaveDataSource + "_" + i);
     }
 
     @After("pointcut()")

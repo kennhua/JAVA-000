@@ -1,9 +1,12 @@
 package datasource.config;
 
+import datasource.DataSourceType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,11 +31,16 @@ import java.util.Map;
  **/
 @Configuration
 @EnableTransactionManagement
+@AutoConfigureAfter(datasource.config.SlaveConfig.class)
 @MapperScan(basePackages = "datasource.dao")
 public class DataSourceConfiguration {
 
+    @Autowired
+    private SlaveConfig slaveConfig;
+
     /**
      * 主库数据源
+     *
      * @return
      */
     @Primary
@@ -43,16 +52,18 @@ public class DataSourceConfiguration {
 
     /**
      * 从库数据源
+     *
      * @return
      */
-    @Bean("slave1DataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.slave1")
-    public DataSource getSlave1DataSource() {
-        return DataSourceBuilder.create().build();
+    public DataSource getSlaveDataSource(int i) {
+        SlaveConfig.Config config = slaveConfig.getSlave().get(i);
+        return DataSourceBuilder.create().driverClassName(config.getDriverClassName())
+                .url(config.getJdbcUrl()).username(config.getUsername()).build();
     }
 
     /**
      * 注入动态数据源
+     *
      * @param dataSource
      * @return
      * @throws Exception
@@ -68,13 +79,20 @@ public class DataSourceConfiguration {
 
     /**
      * 配置动态数据源
+     *
      * @return
      */
     @Bean("dynamicDataSource")
     public AbstractRoutingDataSource dynamicDataSource() {
+
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("masterDataSource", getMasterDataSource());
-        targetDataSources.put("slave1DataSource", getSlave1DataSource());
+        targetDataSources.put(DataSourceType.masterDataSource, getMasterDataSource());
+        List<SlaveConfig.Config> slave = slaveConfig.getSlave();
+        if (null != slave && slave.size() > 0) {
+            for (int i = 0; i < slave.size(); i++) {
+                targetDataSources.put(DataSourceType.slaveDataSource + "_" + i, getSlaveDataSource(i));
+            }
+        }
         AbstractRoutingDataSource routingDataSource = new MultiDataSourceRouter();
         routingDataSource.setTargetDataSources(targetDataSources);
         routingDataSource.setDefaultTargetDataSource(getMasterDataSource());

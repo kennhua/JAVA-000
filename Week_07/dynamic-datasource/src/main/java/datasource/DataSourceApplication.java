@@ -8,7 +8,7 @@ import org.springframework.context.ApplicationContext;
 /**
  * @author liugenghua
  * @date：2020/11/30
- * @Description TODO
+ * @Description 读写分离- 动态 切换数据源 版本1.0
  * @Version:1.0
  **/
 @SpringBootApplication
