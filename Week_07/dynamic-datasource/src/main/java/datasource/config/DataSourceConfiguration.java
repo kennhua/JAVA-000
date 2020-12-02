@@ -55,7 +55,7 @@ public class DataSourceConfiguration {
      *
      * @return
      */
-    public DataSource getSlaveDataSource(int i) {
+    public DataSource getSlaveDataSource(final int i) {
         SlaveConfig.Config config = slaveConfig.getSlave().get(i);
         return DataSourceBuilder.create().driverClassName(config.getDriverClassName())
                 .url(config.getJdbcUrl()).username(config.getUsername()).build();

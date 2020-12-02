@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContext;
 @SpringBootApplication
 public class DataSourceApplication {
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         SpringApplication.run(DataSourceApplication.class,args);
     }
 }

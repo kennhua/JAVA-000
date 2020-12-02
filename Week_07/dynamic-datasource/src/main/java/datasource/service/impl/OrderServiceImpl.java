@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 /**
  * @author liugenghua
  * @date：2020/11/30
- * @Description TODO
+ * @Description @ReadOnly注解表示从从库读数据
  * @Version:1.0
  **/
 @Service

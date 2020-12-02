@@ -1,6 +1,5 @@
 package datasource.config;
 
-import datasource.config.DataSourceContextHolder;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 /**
