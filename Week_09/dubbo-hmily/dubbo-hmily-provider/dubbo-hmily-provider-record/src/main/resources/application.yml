@@ -1,0 +1,24 @@
+server:
+  port: 8087
+  
+spring:
+  application:
+    name: dubbo-hmily-provider-record
+  datasource:
+    driver-class-name:  com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/dubbo_hmily_record?useUnicode=true&characterEncoding=utf8
+    username: root
+    password:
+dubbo:
+  scan:
+    base-packages: com.kennhua.dubbo.demo.record.service
+  protocol:
+    name: dubbo
+    port: 23456
+  registry:
+    address: zookeeper://localhost:2181
+  metadata-report:
+    address: zookeeper://localhost:2181
+
+mybatis:
+  type-aliases-package: com.kennhua.dubbo.demo.entity

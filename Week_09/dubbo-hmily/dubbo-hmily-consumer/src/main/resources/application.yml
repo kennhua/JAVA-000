@@ -1,0 +1,15 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: dubbo-hmily-consumer
+  main:
+    allow-bean-definition-overriding: true
+    web-application-type: none
+dubbo:
+  registry:
+    address: zookeeper://localhost:2181
+  metadata-report:
+    address: zookeeper://localhost:2181
+
